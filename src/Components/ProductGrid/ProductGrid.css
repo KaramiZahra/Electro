@@ -1,0 +1,27 @@
+.product-grid-wrapper {
+  margin: 1.7rem 0;
+}
+.grid-boxes {
+  display: flex;
+}
+.sort,
+.show {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-right: 1rem;
+}
+.sort select,
+.show select {
+  font-size: 0.8rem;
+  outline: none;
+  border: none;
+  border: 1px solid gray;
+}
+.products-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-gap: 1.7rem;
+  margin: 1rem 0;
+}

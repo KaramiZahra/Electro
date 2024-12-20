@@ -1,0 +1,52 @@
+.category-side-bar {
+  margin: 1.5rem 2rem 1.5rem 0;
+}
+.categories input,
+.prices input,
+.brands input {
+  accent-color: red;
+}
+.categories label,
+.brands label {
+  font-size: 0.8rem;
+  margin-left: 0.3rem;
+}
+.categories h3,
+.prices h3,
+.brands h3,
+.top-sellings h3 {
+  margin-bottom: 1.6rem;
+}
+.cats {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.categories,
+.prices,
+.brands,
+.top-sellings {
+  margin-bottom: 2rem;
+}
+.price-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+.min-price,
+.max-price {
+  display: flex;
+  align-items: center;
+  border: 1px solid gray;
+  width: 4rem;
+  margin: 0 0.3rem;
+}
+.min-price-num,
+.max-price-num {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+.add-subtract-price {
+  border-left: 1px solid gray;
+  padding-left: 0.2rem;
+}

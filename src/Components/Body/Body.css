@@ -1,0 +1,21 @@
+.content-wrapper {
+  max-width: 77rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin: auto;
+  padding: 0 0.7rem;
+}
+.grid-bar {
+  width: 80%;
+}
+
+/* Responsive  */
+@media screen and (max-width: 576px) {
+  .side-bar {
+    display: none;
+  }
+  .grid-bar {
+    width: 100%;
+  }
+}

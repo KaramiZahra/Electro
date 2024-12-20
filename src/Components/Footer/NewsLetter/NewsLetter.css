@@ -1,0 +1,79 @@
+.news-letter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid gray;
+  padding: 4rem 0;
+}
+.news-letter-text {
+  font-size: 1.4rem;
+  color: rgb(63, 62, 62);
+}
+.news-letter-text span {
+  font-weight: 600;
+  color: black;
+}
+.subscription {
+  width: 30rem;
+  height: 2.5rem;
+  border: 1px solid gray;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+}
+.subscription input {
+  background-color: transparent;
+  outline: none;
+  padding: 0 1rem;
+}
+.subscription button {
+  background-color: red;
+  color: white;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+}
+.subscription button:hover {
+  background-color: rgb(224, 35, 42);
+  cursor: pointer;
+}
+.subscription button a {
+  color: white;
+  text-decoration: none;
+  padding-left: 0.3rem;
+}
+.social-media {
+  display: flex;
+}
+.social-media .social {
+  width: 3rem;
+  height: 2.5rem;
+  border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.5rem;
+}
+.social-media .social:hover {
+  background-color: gainsboro;
+  border: 1px solid gainsboro;
+  cursor: pointer;
+}
+
+/* Responsive  */
+@media screen and (max-width: 576px) {
+  .subscription {
+    width: 23rem;
+  }
+  .news-letter-text {
+    font-size: 1.1rem;
+  }
+  .social-media .social {
+    width: 2.5rem;
+    height: 2rem;
+  }
+}

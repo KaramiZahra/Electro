@@ -1,0 +1,17 @@
+.copyright {
+  background-color: rgb(30, 31, 40);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+.copyright span {
+  color: gray;
+}
+
+/* Responsive  */
+@media screen and (max-width: 576px) {
+  .copyright {
+    font-size: 0.7rem;
+  }
+}

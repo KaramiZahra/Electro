@@ -1,0 +1,27 @@
+.top-selling-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.top-selling-wrapper img {
+  width: 3.5rem;
+  height: 3rem;
+}
+.sellings-text {
+  margin-left: 1rem;
+}
+.sellings-text h5 {
+  margin: 0.5rem 0;
+}
+.sellings-text p {
+  font-size: 0.75rem;
+}
+.sellings-text p:nth-child(1),
+.sellings-text del {
+  color: gray;
+  font-weight: normal;
+}
+.sellings-text .price:not(span) {
+  color: red;
+  font-weight: 600;
+}

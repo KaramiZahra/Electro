@@ -1,0 +1,39 @@
+.info-links-wrapper {
+  width: 100%;
+  background-color: rgb(21, 22, 28);
+  border-top: 3px solid red;
+}
+.info-links {
+  width: 77rem;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  grid-gap: 2rem;
+  padding: 3rem 1.5rem;
+}
+.info-links ul li:not(.links-title) {
+  list-style: none;
+  color: rgb(179, 177, 177);
+  margin: 0.6rem 0;
+  font-size: 0.9rem;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+.info-links ul li p {
+  margin-left: 0.7rem;
+}
+.links-title {
+  list-style: none;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 1.6rem;
+}
+
+/* Responsive  */
+@media screen and (max-width: 992px) {
+  .info-links {
+    width: 100%;
+    padding: 3rem;
+  }
+}

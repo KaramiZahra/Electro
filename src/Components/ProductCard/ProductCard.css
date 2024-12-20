@@ -1,0 +1,74 @@
+.card-wrapper {
+  height: 27rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgb(170, 169, 169);
+  padding: 0.6rem;
+}
+.card-wrapper:hover {
+  border: 1.5px solid red;
+  cursor: pointer;
+}
+.card-wrapper img {
+  width: 100%;
+  height: 66%;
+  margin-bottom: 1rem;
+}
+.card-desc {
+  text-align: center;
+}
+.card-desc p {
+  font-size: 0.9rem;
+}
+.card-desc p:nth-child(1) {
+  font-size: 0.7rem;
+}
+.card-desc p:nth-child(1),
+.card-desc del {
+  color: gray;
+  font-weight: normal;
+}
+.card-desc .price:not(span) {
+  color: red;
+  font-weight: 600;
+}
+.card-desc h4 {
+  margin: 0.5rem 0;
+}
+.card-desc .stars {
+  color: gray;
+  font-size: 1.3rem;
+  margin: 0.5rem 0;
+}
+.card-desc .stars::after,
+.card-desc .stars::before {
+  content: "";
+  display: inline-block;
+  position: relative;
+  width: 30%;
+  height: 1px;
+  background-color: gray;
+  vertical-align: middle;
+}
+.wish-cart {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0.7rem 0;
+}
+.wish-cart button {
+  background-color: red;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+}
+.wish-cart button:hover {
+  background-color: black;
+  cursor: pointer;
+}
+@media screen and (max-width: 576px) {
+  .card-wrapper {
+    height: 30rem;
+  }
+}
