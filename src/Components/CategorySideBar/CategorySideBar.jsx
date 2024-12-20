@@ -1,7 +1,18 @@
 import "./CategorySidebar.css";
 import TopSelling from "./TopSelling/TopSelling";
+import { useState, useEffect } from "react";
+import { fetchTopSellings } from "../../Utils/utils";
 
 export default function CategorySidebar() {
+  const [products, setProducts] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(undefined);
+
+  useEffect(() => {
+    fetchTopSellings()
+      .then((data) => setProducts(data))
+      .catch((err) => console.error(err));
+  }, []);
   return (
     <>
       <div className="category-side-bar">
@@ -65,8 +76,9 @@ export default function CategorySidebar() {
         </section>
         <section className="top-sellings">
           <h3>TOP SELLING</h3>
-          <TopSelling />
-          <TopSelling />
+          {products.slice(0, 4).map((product) => (
+            <TopSelling key={product._id} {...product} />
+          ))}
         </section>
       </div>
     </>

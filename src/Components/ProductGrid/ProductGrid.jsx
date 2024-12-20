@@ -1,7 +1,19 @@
 import "./ProductGrid.css";
 import ProductCard from "../ProductCard/ProductCard";
+import { useState, useEffect } from "react";
+import { fetchProducts } from "../../Utils/utils";
 
 export default function ProductGrid() {
+  const [products, setProducts] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(undefined);
+
+  useEffect(() => {
+    fetchProducts()
+      .then((data) => setProducts(data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <>
       <div className="product-grid-wrapper">
@@ -26,10 +38,9 @@ export default function ProductGrid() {
           </div>
         </div>
         <div className="products-wrapper">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+        {products.map((product) => (
+          <ProductCard key={product._id} {...product} />
+        ))}
         </div>
       </div>
     </>

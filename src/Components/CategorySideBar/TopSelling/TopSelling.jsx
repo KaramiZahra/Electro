@@ -1,19 +1,17 @@
 import "./TopSelling.css";
-// /* eslint-disable react/prop-types */
-import pic from "../../../assets/testImg1.jpg"
+/* eslint-disable react/prop-types */
 
-export default function TopSelling() {
+export default function TopSelling({ _id, name, price, images, category }) {
   return (
-    <div className="top-selling-wrapper">
-      <img src={pic} alt="product name" />
+    <div className="top-selling-wrapper" id={_id}>
+      <img src={images?.[0]} alt={name} />
       <div className="sellings-text">
-        <p>category</p>
-        <h5>product name</h5>
+        <p>{category?.name}</p>
+        <h5>{name}</h5>
         <p className="price">
-          $newPrice <del>$prevPrice</del>
+          ${(price - price * 0.1).toFixed(2)} <del>${price.toFixed(2)}</del>
         </p>
       </div>
     </div>
   );
 }
-// { name, imgSrc, category, prevPrice, newPrice }
