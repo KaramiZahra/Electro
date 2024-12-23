@@ -5,13 +5,24 @@ import { fetchProducts } from "../../Utils/utils";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(undefined);
 
   useEffect(() => {
-    fetchProducts()
-      .then((data) => setProducts(data))
-      .catch((err) => console.error(err));
+    const loadProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch {
+        setError("Failed to load products! Please try again...");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProducts();
   }, []);
 
   return (
@@ -37,10 +48,17 @@ export default function ProductGrid() {
             </select>
           </div>
         </div>
+
+        {isLoading && <div className="loader"></div>}
+        {error && <p className="error-msg">{error}</p>}
+
         <div className="products-wrapper">
-        {products.map((product) => (
-          <ProductCard key={product._id} {...product} />
-        ))}
+          {!isLoading && !error && products.length === 0 && (
+            <p>No product is available :(</p>
+          )}
+          {products.map((product) => (
+            <ProductCard key={product._id} {...product} />
+          ))}
         </div>
       </div>
     </>

@@ -5,14 +5,13 @@ import { fetchTopSellings } from "../../Utils/utils";
 
 export default function CategorySidebar() {
   const [products, setProducts] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState(undefined);
 
   useEffect(() => {
     fetchTopSellings()
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
   }, []);
+
   return (
     <>
       <div className="category-side-bar">
@@ -74,12 +73,15 @@ export default function CategorySidebar() {
             <label htmlFor="Sony">Sony</label>
           </div>
         </section>
-        <section className="top-sellings">
-          <h3>TOP SELLING</h3>
-          {products.slice(0, 4).map((product) => (
-            <TopSelling key={product._id} {...product} />
-          ))}
-        </section>
+
+        {products?.length > 0 && (
+          <section className="top-sellings">
+            <h3>TOP SELLING</h3>
+            {products.slice(0, 4).map((product) => (
+              <TopSelling key={product._id} {...product} />
+            ))}
+          </section>
+        )}
       </div>
     </>
   );
