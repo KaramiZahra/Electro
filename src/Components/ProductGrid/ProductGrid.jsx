@@ -2,11 +2,14 @@ import "./ProductGrid.css";
 import ProductCard from "../ProductCard/ProductCard";
 import { useState, useEffect } from "react";
 import { fetchProducts } from "../../Utils/utils";
+import useFilters from "../../Hooks/useFilters";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(undefined);
+  const { filters } = useFilters();
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -15,6 +18,7 @@ export default function ProductGrid() {
       try {
         const data = await fetchProducts();
         setProducts(data);
+        setFilteredProducts(data);
       } catch {
         setError("Failed to load products! Please try again...");
       } finally {
@@ -24,6 +28,15 @@ export default function ProductGrid() {
 
     loadProducts();
   }, []);
+
+  useEffect(() => {
+    const filtered = products.filter((product) =>
+      filters.categories.length === 0
+        ? true
+        : filters.categories.includes(product.category.name)
+    );
+    setFilteredProducts(filtered);
+  }, [filters, products]);
 
   return (
     <>
@@ -56,7 +69,7 @@ export default function ProductGrid() {
           {!isLoading && !error && products.length === 0 && (
             <p>No product is available :(</p>
           )}
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard key={product._id} {...product} />
           ))}
         </div>

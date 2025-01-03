@@ -1,16 +1,33 @@
 import "./CategorySidebar.css";
 import TopSelling from "./TopSelling/TopSelling";
 import { useState, useEffect } from "react";
-import { fetchTopSellings } from "../../Utils/utils";
+import { fetchTopSellings, fetchProducts } from "../../Utils/utils";
+import useFilters from "../../Hooks/useFilters";
 
 export default function CategorySidebar() {
   const [products, setProducts] = useState([]);
+  const [selectOptions, setSelectOptions] = useState([]);
+  const { filters, setFilters } = useFilters();
 
   useEffect(() => {
     fetchTopSellings()
       .then((data) => setProducts(data))
       .catch((err) => console.error(err));
+    fetchProducts()
+      .then((data) => setSelectOptions(data))
+      .catch((err) => console.error(err));
   }, []);
+
+  const uniqueCategories = new Set();
+
+  const toggleCategory = (categoryName) => {
+    setFilters((prev) => ({
+      ...prev,
+      categories: prev.categories.includes(categoryName)
+        ? prev.categories.filter((cat) => cat !== categoryName)
+        : [...prev.categories, categoryName],
+    }));
+  };
 
   return (
     <>
@@ -18,22 +35,30 @@ export default function CategorySidebar() {
         {/* Categories  */}
         <section className="categories">
           <h3>CATEGORIES</h3>
-          <div className="cats">
-            <input type="checkbox" id="Laptops" name="Laptops" />
-            <label htmlFor="Laptops">Laptops</label>
-          </div>
-          <div className="cats">
-            <input type="checkbox" id="Smartphones" name="Smartphones" />
-            <label htmlFor="Smartphones">Smartphones</label>
-          </div>
-          <div className="cats">
-            <input type="checkbox" id="Cameras" name="Cameras" />
-            <label htmlFor="Cameras">Cameras</label>
-          </div>
-          <div className="cats">
-            <input type="checkbox" id="Accessories" name="Accessories" />
-            <label htmlFor="Accessories">Accessories</label>
-          </div>
+          {selectOptions.map((selectOpt) => {
+            const categoryName = selectOpt.category.name;
+
+            if (!uniqueCategories.has(categoryName)) {
+              uniqueCategories.add(categoryName);
+              return (
+                <label
+                  key={selectOpt.category._id}
+                  htmlFor={categoryName}
+                  className="cats"
+                >
+                  <input
+                    type="checkbox"
+                    id={categoryName}
+                    name={categoryName}
+                    checked={filters.categories.includes(categoryName)}
+                    onChange={() => toggleCategory(categoryName)}
+                  />
+                  {categoryName}
+                </label>
+              );
+            }
+            return null;
+          })}
         </section>
         {/* prices  */}
         <section className="prices">

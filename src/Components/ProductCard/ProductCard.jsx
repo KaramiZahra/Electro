@@ -1,12 +1,13 @@
 import "./ProductCard.css";
 import { IoMdHeartEmpty } from "react-icons/io";
+import pic from "../../assets/testImg1.jpg"
 /* eslint-disable react/prop-types */
 
-export default function ProductCard({ _id, name, price, images, category }) {
+export default function ProductCard({ _id, name, price, images=[pic], category }) {
   return (
     <>
       <div className="card-wrapper" id={_id}>
-        <img src={images?.[0]} alt={name} />
+        <img src={images?.[0] || pic} alt={name} />
         <div className="card-desc">
           <p>{category?.name}</p>
           <h4>{name}</h4>
