@@ -1,7 +1,7 @@
 import "./CategorySidebar.css";
 import TopSelling from "./TopSelling/TopSelling";
 import { useState, useEffect } from "react";
-import { fetchTopSellings, fetchProducts } from "../../Utils/utils";
+import { fetchProducts } from "../../Utils/utils";
 import useFilters from "../../Hooks/useFilters";
 
 export default function CategorySidebar() {
@@ -10,11 +10,11 @@ export default function CategorySidebar() {
   const { filters, setFilters } = useFilters();
 
   useEffect(() => {
-    fetchTopSellings()
-      .then((data) => setProducts(data))
-      .catch((err) => console.error(err));
     fetchProducts()
-      .then((data) => setSelectOptions(data))
+      .then((data) => {
+        setProducts(data.products);
+        setSelectOptions(data.products);
+      })
       .catch((err) => console.error(err));
   }, []);
 

@@ -1,4 +1,6 @@
 import "./ProductGrid.css";
+import { TbArrowBigLeftLine } from "react-icons/tb";
+import { TbArrowBigRightLine } from "react-icons/tb";
 import ProductCard from "../ProductCard/ProductCard";
 import { useState, useEffect } from "react";
 import { fetchProducts } from "../../Utils/utils";
@@ -10,15 +12,18 @@ export default function ProductGrid() {
   const [error, setError] = useState(undefined);
   const { filters } = useFilters();
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const loadProducts = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await fetchProducts();
-        setProducts(data);
-        setFilteredProducts(data);
+        const data = await fetchProducts(currentPage);
+        setProducts(data.products);
+        setFilteredProducts(data.products);
+        setTotalPages(data.pagination.totalPages);
       } catch {
         setError("Failed to load products! Please try again...");
       } finally {
@@ -27,7 +32,7 @@ export default function ProductGrid() {
     };
 
     loadProducts();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     const filtered = products.filter((product) =>
@@ -37,6 +42,12 @@ export default function ProductGrid() {
     );
     setFilteredProducts(filtered);
   }, [filters, products]);
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   return (
     <>
@@ -74,6 +85,26 @@ export default function ProductGrid() {
           ))}
         </div>
       </div>
+
+      {!isLoading && !error && filteredProducts.length > 0 && (
+        <div className="pagination">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <TbArrowBigLeftLine />
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <TbArrowBigRightLine />
+          </button>
+        </div>
+      )}
     </>
   );
 }
