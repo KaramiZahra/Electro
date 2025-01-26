@@ -5,6 +5,7 @@ import ProductCard from "../ProductCard/ProductCard";
 import { useState, useEffect } from "react";
 import { fetchProducts } from "../../Utils/utils";
 import useFilters from "../../Hooks/useFilters";
+import useSearch from "../../Hooks/useSearch";
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);
@@ -14,13 +15,16 @@ export default function ProductGrid() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { searches } = useSearch();
 
   useEffect(() => {
     const loadProducts = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await fetchProducts(currentPage);
+        const data = await fetchProducts(currentPage, {
+          categories: filters.categories,
+        });
         setProducts(data.products);
         setFilteredProducts(data.products);
         setTotalPages(data.pagination.totalPages);
@@ -32,16 +36,23 @@ export default function ProductGrid() {
     };
 
     loadProducts();
-  }, [currentPage]);
+  }, [currentPage, filters.categories]);
 
   useEffect(() => {
-    const filtered = products.filter((product) =>
-      filters.categories.length === 0
-        ? true
-        : filters.categories.includes(product.category.name)
-    );
+    const filtered = products.filter((product) => {
+      const matchesCategory =
+        (filters.categories.length === 0 ||
+          filters.categories.includes(product.category.name)) &&
+        (searches.categories.length === 0 ||
+          searches.categories.includes(product.category.name));
+      const matchesQuery =
+        searches.query === "" ||
+        product.name.toLowerCase().includes(searches.query.toLowerCase());
+      return matchesCategory && matchesQuery;
+    });
+
     setFilteredProducts(filtered);
-  }, [filters, products]);
+  }, [searches, products, filters.categories]);
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {

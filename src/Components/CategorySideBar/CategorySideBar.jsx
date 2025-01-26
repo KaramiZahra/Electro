@@ -3,11 +3,13 @@ import TopSelling from "./TopSelling/TopSelling";
 import { useState, useEffect } from "react";
 import { fetchProducts } from "../../Utils/utils";
 import useFilters from "../../Hooks/useFilters";
+import useSearch from "../../Hooks/useSearch";
 
 export default function CategorySidebar() {
   const [products, setProducts] = useState([]);
   const [selectOptions, setSelectOptions] = useState([]);
   const { filters, setFilters } = useFilters();
+  const { setSearches } = useSearch();
 
   useEffect(() => {
     fetchProducts()
@@ -21,12 +23,31 @@ export default function CategorySidebar() {
   const uniqueCategories = new Set();
 
   const toggleCategory = (categoryName) => {
+    const updatedCategories = filters.categories.includes(categoryName)
+      ? []
+      : [categoryName];
+
     setFilters((prev) => ({
       ...prev,
-      categories: prev.categories.includes(categoryName)
-        ? prev.categories.filter((cat) => cat !== categoryName)
-        : [...prev.categories, categoryName],
+      categories: updatedCategories,
     }));
+
+    fetchProducts({ categories: updatedCategories })
+      .then((data) => setProducts(data.products))
+      .catch((err) => console.error(err));
+  };
+
+  const handleCategoryChange = (categoryName) => {
+    if (categoryName === "All") {
+      setSearches((prev) => ({ ...prev, categories: [] }));
+      setFilters((prev) => ({ ...prev, categories: [] }));
+    } else {
+      setSearches((prev) => ({ ...prev, categories: [categoryName] }));
+      setFilters((prev) => ({ ...prev, categories: [categoryName] }));
+    }
+    fetchProducts({ categories: categoryName === "All" ? [] : [categoryName] })
+      .then((data) => setProducts(data.products))
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -35,6 +56,16 @@ export default function CategorySidebar() {
         {/* Categories  */}
         <section className="categories">
           <h3>CATEGORIES</h3>
+          <label htmlFor="All" className="cats">
+            <input
+              type="checkbox"
+              id="All"
+              name="All"
+              checked={filters.categories.length === 0}
+              onChange={() => handleCategoryChange("All")}
+            />
+            All
+          </label>
           {selectOptions.map((selectOpt) => {
             const categoryName = selectOpt.category.name;
 
