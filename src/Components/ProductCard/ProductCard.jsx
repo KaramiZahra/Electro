@@ -1,12 +1,23 @@
 import "./ProductCard.css";
+import { Link } from "react-router-dom";
 import { IoMdHeartEmpty } from "react-icons/io";
-import pic from "../../assets/testImg1.jpg"
+import pic from "../../assets/testImg1.jpg";
 /* eslint-disable react/prop-types */
 
-export default function ProductCard({ _id, name, price, images=[pic], category }) {
+export default function ProductCard({
+  _id,
+  name,
+  price,
+  images = [pic],
+  category,
+}) {
   return (
     <>
-      <div className="card-wrapper" id={_id}>
+      <Link
+        to={`/Electro/ProductDetails/${_id}`}
+        className="card-wrapper"
+        id={_id}
+      >
         <img src={images?.[0] || pic} alt={name} />
         <div className="card-desc">
           <p>{category?.name}</p>
@@ -16,11 +27,13 @@ export default function ProductCard({ _id, name, price, images=[pic], category }
           </p>
           <div className="stars">★★★★★</div>
           <div className="wish-cart">
-            <IoMdHeartEmpty size={17} />
+            <div>
+              <IoMdHeartEmpty size={20} color="black" />
+            </div>
             <button>ADD TO CART</button>
           </div>
         </div>
-      </div>
+      </Link>
     </>
   );
 }

@@ -1,15 +1,18 @@
-import "./App.css";
-import Header from "./Components/Header/Header";
-import Body from "./Components/Body/Body";
-import Footer from "./Components/Footer/Footer";
+import { Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home";
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
+import NotFound from "./Pages/NotFound/NotFound";
 
 function App() {
   return (
-    <>
-      <Header />
-      <Body />
-      <Footer />
-    </>
+    <Routes>
+      <Route path="/Electro" element={<Home />} />
+      <Route
+        path="/Electro/ProductDetails/:productId"
+        element={<ProductDetails />}
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 

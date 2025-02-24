@@ -5,11 +5,11 @@
 .prices input,
 .brands input {
   accent-color: red;
+  margin-right: 0.6rem;
 }
 .categories label,
 .brands label {
   font-size: 0.8rem;
-  margin-left: 0.3rem;
 }
 .categories h3,
 .prices h3,

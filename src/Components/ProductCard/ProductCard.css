@@ -6,6 +6,7 @@
   justify-content: space-between;
   border: 1px solid rgb(170, 169, 169);
   padding: 0.6rem;
+  text-decoration: none;
 }
 .card-wrapper:hover {
   border: 1.5px solid red;
@@ -18,6 +19,7 @@
 }
 .card-desc {
   text-align: center;
+  width: 100%;
 }
 .card-desc p {
   font-size: 0.9rem;
@@ -36,6 +38,7 @@
 }
 .card-desc h4 {
   margin: 0.5rem 0;
+  color: black;
 }
 .card-desc .stars {
   color: gray;
@@ -53,12 +56,17 @@
   vertical-align: middle;
 }
 .wish-cart {
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 0.7rem 0;
 }
+.wish-cart div {
+  width: 20%;
+}
 .wish-cart button {
+  width: 80%;
   background-color: red;
   color: white;
   padding: 0.5rem 1rem;
