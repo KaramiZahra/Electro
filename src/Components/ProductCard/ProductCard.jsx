@@ -1,7 +1,9 @@
 import "./ProductCard.css";
 import { Link } from "react-router-dom";
+import useCart from "../../Hooks/useCart";
 import { IoMdHeartEmpty } from "react-icons/io";
 import pic from "../../assets/testImg1.jpg";
+import CartContext from "../../Context/CartContext";
 /* eslint-disable react/prop-types */
 
 export default function ProductCard({
@@ -11,14 +13,16 @@ export default function ProductCard({
   images = [pic],
   category,
 }) {
+  const { addToCart } = useCart(CartContext);
   return (
     <>
-      <Link
-        to={`/Electro/ProductDetails/${_id}`}
-        className="card-wrapper"
-        id={_id}
-      >
-        <img src={images?.[0] || pic} alt={name} />
+      <div className="card-wrapper" id={_id}>
+        <Link
+          to={`/Electro/ProductDetails/${_id}`}
+          className="card-img-wrapper"
+        >
+          <img src={images?.[0] || pic} alt={name} />
+        </Link>
         <div className="card-desc">
           <p>{category?.name}</p>
           <h4>{name}</h4>
@@ -30,10 +34,12 @@ export default function ProductCard({
             <div>
               <IoMdHeartEmpty size={20} color="black" />
             </div>
-            <button>ADD TO CART</button>
+            <button onClick={() => addToCart({ _id, name, price, images })}>
+              ADD TO CART
+            </button>
           </div>
         </div>
-      </Link>
+      </div>
     </>
   );
 }

@@ -26,7 +26,6 @@ export default function ProductDetails() {
         const selectedProduct = data.products.find(
           (item) => item._id === productId
         );
-        console.log(selectedProduct);
 
         if (selectedProduct) {
           setProduct(selectedProduct);

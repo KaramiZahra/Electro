@@ -11,11 +11,13 @@ import { fetchProducts } from "../../../Utils/utils";
 import { useEffect, useState } from "react";
 import useSearch from "../../../Hooks/useSearch";
 import useFilters from "../../../Hooks/useFilters";
+import useCart from "../../../Hooks/useCart";
 
 export default function Navbar() {
   const { searches, setSearches } = useSearch();
   const { setFilters } = useFilters();
   const [categories, setCategories] = useState([]);
+  const { cart } = useCart();
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -129,7 +131,9 @@ export default function Navbar() {
               <p>Wishlist</p>
             </div>
             <div className="cart">
-              <div className="cart-count">7</div>
+              <div className="cart-count">
+                {cart.length > 0 ? cart.length : "0"}
+              </div>
               <IoCartOutline size={20} />
               <p>Cart</p>
             </div>
