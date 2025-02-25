@@ -15,6 +15,7 @@ export default function ProductGrid() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const { searches } = useSearch();
 
   useEffect(() => {
@@ -22,9 +23,7 @@ export default function ProductGrid() {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await fetchProducts(currentPage, {
-          categories: filters.categories,
-        });
+        const data = await fetchProducts(currentPage, itemsPerPage);
         setProducts(data.products);
         setFilteredProducts(data.products);
         setTotalPages(data.pagination.totalPages);
@@ -36,7 +35,7 @@ export default function ProductGrid() {
     };
 
     loadProducts();
-  }, [currentPage, filters.categories]);
+  }, [currentPage, filters.categories, itemsPerPage]);
 
   useEffect(() => {
     const filtered = products.filter((product) => {
@@ -75,7 +74,15 @@ export default function ProductGrid() {
           </div>
           <div className="show">
             <p>SHOW:</p>
-            <select name="show-box" id="show-box">
+            <select
+              name="show-box"
+              id="show-box"
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+            >
               <option value="6">6</option>
               <option value="12">12</option>
               <option value="18">18</option>
