@@ -2,6 +2,8 @@ import "./ProductDetails.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../../Utils/utils";
+import CartContext from "../../Context/CartContext";
+import useCart from "../../Hooks/useCart";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { IoMdHeartEmpty } from "react-icons/io";
@@ -12,6 +14,7 @@ import {
   FaPinterest,
 } from "react-icons/fa6";
 import pic from "../../assets/testImg1.jpg";
+/* eslint-disable react/prop-types */
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -41,6 +44,8 @@ export default function ProductDetails() {
 
     fetchDetail();
   }, [productId]);
+
+  const { addToCart } = useCart(CartContext);
 
   return (
     <>
@@ -94,7 +99,18 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div className="wish-cart">
-                <button>ADD TO CART</button>
+                <button
+                  onClick={() =>
+                    addToCart({
+                      _id: product._id,
+                      name: product.name,
+                      price: product.price,
+                      images: product.images,
+                    })
+                  }
+                >
+                  ADD TO CART
+                </button>
                 <IoMdHeartEmpty size={20} />
               </div>
               <p>Category</p>
