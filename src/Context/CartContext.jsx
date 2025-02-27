@@ -18,7 +18,14 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
   const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+    // Check if it already exists
+    setCart((prevCart) => {
+      const isProductInCart = prevCart.some((item) => item._id === product._id);
+      if (!isProductInCart) {
+        return [...prevCart, product];
+      }
+      return prevCart;
+    });
   };
 
   return (
