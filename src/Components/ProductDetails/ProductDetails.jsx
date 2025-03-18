@@ -1,11 +1,4 @@
 import "./ProductDetails.css";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { fetchProducts } from "../../Utils/utils";
-import CartContext from "../../Context/CartContext";
-import useCart from "../../Hooks/useCart";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
 import { IoMdHeartEmpty } from "react-icons/io";
 import {
   FaFacebookF,
@@ -14,47 +7,58 @@ import {
   FaPinterest,
 } from "react-icons/fa6";
 import pic from "../../assets/testImg1.jpg";
-/* eslint-disable react/prop-types */
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import { fetchProducts } from "../../Utils/utils";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useCart from "../../Hooks/useCart";
+import CartContext from "../../Context/CartContext";
 
 export default function ProductDetails() {
-  const { productId } = useParams();
-  const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { productId } = useParams(); // Extract productId from the URL
+  const [product, setProduct] = useState(null); // Store all the products
+  const [isLoading, setIsLoading] = useState(true); // Handle loading state
+  const [error, setError] = useState(null); // Handle error state
 
+  // Fetch products on component mount
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         const data = await fetchProducts();
+        // Find the specific product by its ID
         const selectedProduct = data.products.find(
           (item) => item._id === productId
         );
 
         if (selectedProduct) {
-          setProduct(selectedProduct);
+          setProduct(selectedProduct); // If product is found, update the state
         } else {
-          setError("Product not found");
+          setError("Product not found"); // Otherwise, set error message
         }
       } catch (err) {
         setError(err);
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Set loading state to false after the API call is done
       }
     };
 
     fetchDetail();
-  }, [productId]);
+  }, [productId]); // The effect runs whenever productId changes
 
+  // Extract addToCart function from useCart hook with CartContext
   const { addToCart } = useCart(CartContext);
 
   return (
     <>
-      <Header />
+      <Header /> {/* Render the Header component */}
       {isLoading && <div className="loader"></div>}
       {error && <p className="error-msg">{error}</p>}
+      {/* Render the product details when data is fully loaded */}
       {!isLoading && !error && product && (
         <>
           <div className="product-details-wrapper">
+            {/* Display additional product images */}
             <div className="further-imgs">
               {product.images.slice(0, 3).map((image, _id) => (
                 <img
@@ -64,12 +68,14 @@ export default function ProductDetails() {
                 />
               ))}
             </div>
+            {/* Display the main product image */}
             <div className="main-img">
               <img
                 src={product.images?.[0] || pic}
                 alt={`Product image ${product._id + 1}`}
               />
             </div>
+            {/* Product description and details */}
             <div className="detail-desc">
               <h3>{product.name}</h3>
               <div className="stars">★★★★★</div>
@@ -98,6 +104,7 @@ export default function ProductDetails() {
                   </select>
                 </div>
               </div>
+              {/* Wishlist and Add to Cart section */}
               <div className="wish-cart">
                 <button
                   onClick={() =>
@@ -114,6 +121,7 @@ export default function ProductDetails() {
                 <IoMdHeartEmpty size={20} />
               </div>
               <p>Category</p>
+              {/* Share options */}
               <div className="share">
                 <p>SHARE: </p>
                 <p>
@@ -131,6 +139,7 @@ export default function ProductDetails() {
               </div>
             </div>
           </div>
+          {/* Review section - Static */}
           <div className="review-wrapper">
             <h4>Reviews</h4>
             <div className="review-box">
@@ -139,32 +148,16 @@ export default function ProductDetails() {
                   <p>4.5</p>
                   <p>★★★★★</p>
                 </p>
-                <div className="star-range">
-                  <p>★★★★★</p>
-                  <input type="range" min={0} max={5} />
-                </div>
-                <div className="star-range">
-                  <p>★★★★★</p>
-                  <input type="range" min={0} max={5} />
-                </div>
-                <div className="star-range">
-                  <p>★★★★★</p>
-                  <input type="range" min={0} max={5} />
-                </div>
-                <div className="star-range">
-                  <p>★★★★★</p>
-                  <input type="range" min={0} max={5} />
-                </div>
-                <div className="star-range">
-                  <p>★★★★★</p>
-                  <input type="range" min={0} max={5} />
-                </div>
-                <div className="star-range">
-                  <p>★★★★★</p>
-                  <input type="range" min={0} max={5} />
-                </div>
+                {/* Repeat range inputs for different reviews */}
+                {[...Array(5)].map((_, index) => (
+                  <div className="star-range" key={index}>
+                    <p>★★★★★</p>
+                    <input type="range" min={0} max={5} />
+                  </div>
+                ))}
               </div>
               <div className="review-desc-wrapper">
+                {/* Display individual reviews */}
                 <div className="review-desc">
                   <div className="name-date">
                     <p className="name">John</p>
@@ -178,6 +171,7 @@ export default function ProductDetails() {
                   </div>
                 </div>
               </div>
+              {/* Add a new review */}
               <div className="new-review">
                 <input
                   className="name-email"
@@ -200,7 +194,7 @@ export default function ProductDetails() {
           </div>
         </>
       )}
-      <Footer />
+      <Footer /> {/* Render the Footer component */}
     </>
   );
 }

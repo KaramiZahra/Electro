@@ -4,15 +4,15 @@ import ProductGrid from "../ProductGrid/ProductGrid";
 
 export default function Body() {
   return (
-    <>
-      <div className="content-wrapper">
-        <div className="side-bar">
-          <CategorySidebar />
-        </div>
-        <div className="grid-bar">
-          <ProductGrid />
-        </div>
+    <div className="content-wrapper">
+      {/* Sidebar section */}
+      <div className="side-bar">
+        <CategorySidebar />
       </div>
-    </>
+      {/* Main section for displaying products */}
+      <div className="grid-bar">
+        <ProductGrid />
+      </div>
+    </div>
   );
 }
